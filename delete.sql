@@ -1,4 +1,7 @@
 -- Take note of the sequence to delete: avoid foreign key constraint violations
+-- Triggers
+-- CASCADE: delete all related records
+
 -- End goal: Delete a user
 
 -- Delete a specific note:
