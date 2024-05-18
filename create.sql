@@ -11,7 +11,7 @@ CREATE TABLE notebooks (
   id SERIAL PRIMARY KEY,
   nb_name TEXT,  -- avoid reserved keywords like 'name'
   nb_description TEXT,
-  created_at TIMESTAMP,
+  created_at TIMESTAMP, -- TIMESTAMP includes date and time
   created_by INT,
   FOREIGN KEY (created_by) REFERENCES users(id)
 );

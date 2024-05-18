@@ -22,14 +22,17 @@ FROM notebooks nb, users u
 WHERE nb.created_by = u.id;
 
 -- Left Outer Join:
--- Retrieve all notebooks along with their note ids:
-SELECT nb.*, nt.id AS note_id
+-- Retrieve all notebooks and their number of notes (even if they have 0 notes):
+SELECT nb.id AS nb_id, COUNT(nt.id) AS total_notes
 FROM notebooks nb
-LEFT OUTER JOIN notes nt ON nb.id = nt.notebook_id;
+LEFT OUTER JOIN notes nt ON nb.id = nt.notebook_id
+GROUP BY nb.id
 
 -- Contrast with inner join:
-SELECT nb.*, nt.id AS note_id
-FROM notebooks nb, notes nt WHERE nb.id = nt.notebook_id;
+SELECT nb.id AS nb_id, COUNT(nt.id) AS total_notes
+FROM notebooks nb
+INNER JOIN notes nt ON nb.id = nt.notebook_id
+GROUP BY nb.id
 
 -- Aggregate Queries
 -- COUNT, MAX, MIN, AVG, SUM
@@ -47,13 +50,6 @@ LEFT OUTER JOIN notebooks nb ON u.id = nb.created_by
 LEFT OUTER JOIN notes nt ON nb.id = nt.notebook_id
 GROUP BY u.id, u.username
 ORDER BY total_notes DESC;
-
--- Retrieve user who created the most notes
-SELECT u.username, MAX(nb.id) AS max_notes
-FROM users u, notebooks nb, notes nt 
-WHERE u.id = nb.created_by AND nb.id = nt.notebook_id
-GROUP BY u.username
-HAVING COUNT(nt.id) = MAX(nt.id);
 
 -- Nested Queries
 -- Retrieve user who created the most notes
